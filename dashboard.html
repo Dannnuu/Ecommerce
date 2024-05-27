@@ -1,0 +1,1032 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="icon" href="icons8-shopee-16.png"/>
+    <title>Shopee Indonesia | Situs Belanja Online Terlengkap & Terpercaya</title>
+    <style>
+      .carousel-item {
+          display: none;
+      }
+      .carousel-item.active {
+          display: block;
+      }
+      @media (max-width: 640px) {
+          .category-item p {
+              font-size: 12px; /* Adjust font size for smaller screens */
+          }
+      }
+      .category-item {
+        flex: 0 0 8%;
+        max-width: 8%;
+    }
+    .category-item img {
+        width: 50px;
+        height: 50px;
+    }
+    .category-item p {
+        margin-top: 8px;
+        font-size: 14px;
+    }
+      .flash-sale {
+          display: flex;
+          align-items: center;
+          font-size: 24px;
+          font-weight: bold;
+          color: #FF5722;
+      }
+      .timer {
+          display: flex;
+          align-items: center;
+          margin-left: 10px;
+      }
+      .timer div {
+          background-color: #000;
+          color: #fff;
+          padding: 5px 10px;
+          margin: 0 2px;
+          border-radius: 5px;
+          font-size: 20px;
+          text-align: center;
+          min-width: 40px; /* Ensure minimum width for better alignment */
+      }
+      .hidden {
+          display: none;
+      }
+      #loginModal, #signInModal {
+          display: none;
+          position: fixed;
+          left: 0;
+          top: 0;
+          width: 100%;
+          height: 100%;
+          background-color: rgba(0, 0, 0, 0.5);
+          z-index: 1050; /* Pastikan ini lebih tinggi dari banner */
+      }
+      .modal {
+          display: none;
+          position: fixed;
+          left: 0;
+          top: 0;
+          width: 100%;
+          height: 100%;
+          background-color: rgba(0, 0, 0, 0.5);
+          z-index: 1050; /* Pastikan ini lebih tinggi dari banner */
+      }
+      .flash-sale-container {
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          margin: 20px 0;
+      }
+      .product-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+          gap: 20px;
+      }
+  </style>
+</head>
+<body>
+    <!-- NAVBAR -->
+    <div class="w-full">
+        <header class="bg-red-500 p-6 pt-1 text-white flex flex-col sm:flex-row justify-between items-center w-full">
+            <div class="flex items-center space-x-4 mt-4">
+                <img src="shopee utama.png" alt="Logo" class="h-10">
+                <h1 class="text-2xl font-medium">Shopee Clone</h1>
+            </div>
+            <div class="flex justify-between items-end flex-col">
+                <div class="grid grid-cols-3 gap-4 mb-2 mt-0">
+                    <h6 class="text-center">Notifikasi</h6>
+                    <h6 class="text-center">Bantuan</h6>
+                    <h6 class="text-center">Bahasa Indonesia</h6>
+                </div>
+                <div class="flex space-x-4">
+                    <div class="relative">
+                        <label for="Search" class="sr-only">Search</label>
+                        <input
+                          type="text"
+                          id="Search"
+                          placeholder="Search for..."
+                          class="w-full rounded-md border-gray-200 py-2.5 pe-10 pl-4 shadow-sm sm:text-sm"
+                        />
+                        <span class="absolute inset-y-0 end-0 grid w-10 place-content-center">
+                          <button type="button" class="text-gray-600 hover:text-gray-700">
+                            <span class="sr-only">Search</span>
+                            <svg
+                              xmlns="http://www.w3.org/2000/svg"
+                              fill="none"
+                              viewBox="0 0 24 24"
+                              stroke-width="1.5"
+                              stroke="currentColor"
+                              class="h-4 w-4"
+                            >
+                              <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
+                              />
+                            </svg>
+                          </button>
+                        </span>
+                      </div>
+                    <button class="bg-transparent p-2 rounded">
+                        <img src="icons8-shopping-cart-48.png" alt="Cart (90)" class="h-6 w-6">
+                    </button>
+                    <button class="bg-white text-orange-500 p-2 rounded hover:bg-orange-300" onclick="toggleModal('signInModal')">Sign In</button>
+                    <button class="bg-orange-300 text-white-500 p-2 rounded hover:bg-orange-800" onclick="toggleModal('loginModal')">Login</button>
+                </div>
+            </div>
+        </header>
+    </div>
+    <!-- END NAVBAR -->
+    <!-- Modal Login -->
+    <div id="loginModal" class="modal">
+        <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
+            <div class="mt-3 text-center">
+                <h3 class="text-lg leading-6 font-medium text-gray-900 ">Login</h3>
+                <div class="mt-2 px-7 py-3">
+                    <input type="text" id="loginEmail" name="loginEmail" placeholder="Email" class="mb-3 px-3 py-2 border rounded-md w-full">
+                    <input type="password" id="loginPassword" name="loginPassword" placeholder="Password" class="mb-3 px-3 py-2 border rounded-md w-full">
+                    <button type="button" class="mt-3 w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-blue-500 text-base font-medium text-white hover:bg-blue-700 focus:outline-none sm:text-sm" onclick="login()">Login</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Modal Login -->
+    <!-- Modal signup -->
+    <div id="signInModal">
+      <div class="relative top-20 mx-auto p-5 border w-96 shadow-lg rounded-md bg-white">
+          <div class="mt-3 text-center">
+            <h1 class="mt-6 text-2xl font-bold text-gray-900 sm:text-3xl md:text-4xl">
+              Welcome to Shopee
+          </h1>
+
+          <p class="mt-4 leading-relaxed text-gray-500">
+              Please sign up to your account
+          </p>
+
+          <form action="#" class="mt-8 grid grid-cols-6 gap-6">
+              <div class="col-span-6 sm:col-span-3">
+                  <label
+                      for="FirstName"
+                      class="block text-sm font-medium text-gray-700"
+                  >
+                      First Name
+                  </label>
+
+                  <input
+                      type="text"
+                      id="FirstName"
+                      name="first_name"
+                      class="mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm"
+                  />
+              </div>
+
+              <div class="col-span-6 sm:col-span-3">
+                  <label
+                      for="LastName"
+                      class="block text-sm font-medium text-gray-700"
+                  >
+                      Last Name
+                  </label>
+
+                  <input
+                      type="text"
+                      id="LastName"
+                      name="last_name"
+                      class="mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm"
+                  />
+              </div>
+
+              <div class="col-span-6">
+                  <label for="Email" class="block text-sm font-medium text-gray-700">
+                      Email
+                  </label>
+
+                  <input
+                      type="email"
+                      id="Email"
+                      name="email"
+                      class="mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm"
+                  />
+              </div>
+
+              <div class="col-span-6 sm:col-span-3">
+                  <label
+                      for="Password"
+                      class="block text-sm font-medium text-gray-700"
+                  >
+                      Password
+                  </label>
+
+                  <input
+                      type="password"
+                      id="Password"
+                      name="password"
+                      class="mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm"
+                  />
+              </div>
+
+              <div class="col-span-6 sm:col-span-3">
+                  <label for="PasswordConfirmation" class="block text-sm font-medium text-gray-700">
+                      Password Confirmation
+                  </label>
+
+                  <input
+                      type="password"
+                      id="PasswordConfirmation"
+                      name="password_confirmation"
+                      class="mt-1 w-full rounded-md border-gray-200 bg-white text-sm text-gray-700 shadow-sm"
+                  />
+              </div>
+
+              <div class="col-span-6">
+                  <label for="MarketingAccept" class="flex gap-4">
+                      <input
+                          type="checkbox"
+                          id="MarketingAccept"
+                          name="marketing_accept"
+                          class="h-5 w-5 rounded-md border-gray-200 bg-white shadow-sm"
+                      />
+
+                      <span class="text-sm text-gray-700">
+                          I want to receive emails about events, product updates and
+                          company announcements.
+                      </span>
+                  </label>
+              </div>
+
+              <div class="col-span-6">
+                  <p class="text-sm text-gray-500">
+                      By creating an account, you agree to our
+                      <a href="#" class="text-gray-700 underline">
+                          terms and conditions
+                      </a>
+                      and
+                      <a href="#" class="text-gray-700 underline">privacy policy</a>.
+                  </p>
+              </div>
+
+              <div class="col-span-6 sm:flex sm:items-center sm:gap-4">
+                  <button
+                      class="inline-block shrink-0 rounded-md border border-blue-600 bg-blue-600 px-12 py-3 text-sm font-medium text-white transition hover:bg-transparent hover:text-blue-600 focus:outline-none focus:ring active:text-blue-500"
+                  >
+                      Create an account
+                  </button>
+
+                  <p class="mt-4 text-sm text-gray-500 sm:mt-0">
+                      Already have an account?
+                      <a href="#" class="text-gray-700 underline">Log in</a>.
+                  </p>
+              </div>
+          </form>
+          </div>
+      </div>
+  </div>
+    <!-- END MODAL signup -->
+<!-- hero banner -->
+<section id="banner-grid" class="mt-8">
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4 container mx-auto" style="max-width:1600px;">
+            <!-- Carousel -->
+            <div class="md:col-span-2 carousel relative overflow-hidden w-full">
+                <div class="carousel-inner relative w-full">
+                    <!-- Slide 1 -->
+                    <div class="carousel-item active relative float-left w-full">
+                        <img src="banner 1.png" class="block w-full" alt="Banner 1">
+                    </div>
+                    <!-- Slide 2 -->
+                    <div class="carousel-item relative float-left w-full">
+                        <img src="banner2.png" class="block w-full" alt="Banner 2">
+                        <img src="https://via.placeholder.com/100x50" class="absolute top-0 left-0 m-4" alt="Logo">
+                    </div>
+                    <!-- Slide 3 -->
+                    <div class="carousel-item relative float-left w-full">
+                        <img src="banner 3.png" class="block w-full" alt="Banner 3">
+                        <img src="https://via.placeholder.com/100x50" class="absolute top-0 left-0 m-4" alt="Logo">
+                    </div>
+                </div>
+                <!-- Carousel Controls -->
+                <div class="absolute z-30 flex space-x-3 -translate-x-1/2 bottom-5 left-1/2">
+                  <button type="button" class="w-3 h-3 rounded-full" aria-current="true" aria-label="Slide 1" data-carousel-slide-to="0"></button>
+                  <button type="button" class="w-3 h-3 rounded-full" aria-label="Slide 2" data-carousel-slide-to="1"></button>
+                  <button type="button" class="w-3 h-3 rounded-full" aria-label="Slide 3" data-carousel-slide-to="2"></button>
+              </div>
+              <!-- Slider controls -->
+              <button type="button" class="absolute left-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-prev>
+                  <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 group-hover:bg-white/50 group-focus:ring-4 group-focus:ring-white group-focus:outline-none">
+                      <svg aria-hidden="true" class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path>
+                      </svg>
+                      <span class="sr-only">Previous</span>
+                  </span>
+              </button>
+              <button type="button" class="absolute right-0 z-30 flex items-center justify-center h-full px-4 cursor-pointer group focus:outline-none" data-carousel-next>
+                  <span class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-white/30 group-hover:bg-white/50 group-focus:ring-4 group-focus:ring-white group-focus:outline-none">
+                      <svg aria-hidden="true" class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+                      </svg>
+                      <span class="sr-only">Next</span>
+                  </span>
+              </button>
+            </div>
+            <!-- Static Banners -->
+            <div class="grid grid-rows-2 gap-4">
+                <div class="relative">
+                    <img src="banner srtatis 1.jfif" class="block w-full" alt="Static Banner 1">
+                </div>
+                <div class="relative">
+                    <img src="banner srtatis 2.jfif" class="block w-full" alt="Static Banner 2">
+                </div>
+            </div>
+        </div>
+    </section>
+<!-- end hero banner -->
+    <!-- kategori -->
+    <section id="categories" class="mt-8">
+      <div class="flex flex-row flex-wrap justify-center gap-4 text-center">
+          <div class="category-item w-1/2 ms:w-1/5 md:w-1/10">
+              <img src="pilih lokal icon.png" alt="Shopee Pilih Lokal" class="mx-auto">
+              <p>Shopee Pilih Lokal</p>
+          </div>
+          <div class="category-item w-1/2 ms:w-1/5 md:w-1/10">
+              <img src="shopee mall icon.png" alt="Shopee Mall" class="mx-auto">
+              <p>Shopee Mall</p>
+          </div>
+          <div class="category-item w-1/2 ms:w-1/5 md:w-1/10">
+              <img src="pulsa icon.png" alt="Pulsa, Tagihan, dan Tiket" class="mx-auto">
+              <p>Pulsa, Tagihan, dan Tiket</p>
+          </div>
+          <div class="category-item w-1/2 ms:w-1/5 md:w-1/10">
+              <img src="infashion icon.png" alt="inFashion" class="mx-auto">
+              <p>inFashion</p>
+          </div>
+          <div class="category-item w-1/2 ms:w-1/5 md:w-1/10">
+              <img src="supermarket icon.png" alt="Shopee Supermarket" class="mx-auto">
+              <p>Shopee Supermarket</p>
+          </div>
+          <div class="category-item w-1/2 ms:w-1/5 md:w-1/10">
+              <img src="cod icon.png" alt="Bayar Di Tempat" class="mx-auto">
+              <p>Bayar Di Tempat</p>
+          </div>
+          <div class="category-item w-1/2 ms:w-1/5 md:w-1/10">
+              <img src="termurah icon.png" alt="Termurah di Shopee" class="mx-auto">
+              <p>Termurah di Shopee</p>
+          </div>
+          <div class="category-item w-1/2 ms:w-1/5 md:w-1/10">
+              <img src="gratis ongkir icon.png" alt="Gratis Ongkir dan Voucher" class="mx-auto">
+              <p>Gratis Ongkir dan Voucher</p>
+          </div>
+          <div class="category-item w-1/2 ms:w-1/5 md:w-1/10">
+              <img src="barokah icon.png" alt="Shopee Barokah" class="mx-auto">
+              <p>Shopee Barokah</p>
+          </div>
+          <div class="category-item w-1/2 ms:w-1/5 md:w-1/10">
+              <img src="promo icon.png" alt="Semua Promo" class="mx-auto">
+              <p>Semua Promo</p>
+          </div>
+      </div>
+  </section>
+  <!-- end kategori -->
+    <!-- CATEGORY tambahan SECTION -->
+    <section id="additional-categories" class="mt-8 mb-10">
+      <h2 class="text-2xl font-bold text-orange-600 mb-4 pl-10">KATEGORI</h2>
+        <div class="flex flex-wrap flex-row justify-center gap-4 text-center">
+              <div class="flex flex-wrap flex-col items-center text-center">
+                <img src="Elektronik icon.png" alt="Komputer & Aksesoris">
+                <p class="mt-2 text-sm">Elektronik</p>
+            </div>
+              <div class="flex flex-wrap flex-col items-center text-center">
+                <img src="laptop icon.png" alt="Komputer & Aksesoris">
+                <p class="mt-2 text-sm">Komputer & Aksesoris</p>
+            </div>
+            <div class="flex flex-wrap flex-col items-center text-center">
+                <img src="hp icon.png" alt="Handphone & Aksesoris">
+                <p class="mt-2 text-sm">Handphone & Aksesoris</p>
+            </div>
+            <div class="flex flex-wrap flex-col items-center text-center">
+                <img src="pakaian pria icon.png" alt="Pakaian Pria">
+                <p class="mt-2 text-sm">Pakaian Pria</p>
+            </div>
+            <div class="flex flex-wrap flex-col items-center text-center">
+                <img src="sepatu pria icon.png" alt="Sepatu Pria">
+                <p class="mt-2 text-sm">Sepatu Pria</p>
+            </div>
+            <div class="flex flex-wrap flex-col items-center text-center">
+                <img src="tas pria icon.png" alt="Tas Pria">
+                <p class="mt-2 text-sm">Tas Pria</p>
+            </div>
+            <div class="flex flex-wrap flex-col items-center text-center">
+                <img src="aksesoris.png" alt="Aksesoris Fashion">
+                <p class="mt-2 text-sm">Aksesoris Fashion</p>
+            </div>
+            <div class="flex flex-wrap flex-col items-center text-center">
+                <img src="jam tangan icon.png" alt="Jam Tangan">
+                <p class="mt-2 text-sm">Jam Tangan</p>
+            </div>
+            <div class="flex flex-wrap flex-col items-center text-center">
+                <img src="kesehatan icon.png" alt="Kesehatan">
+                <p class="mt-2 text-sm">Kesehatan</p>
+            </div>
+            <div class="flex flex-wrap flex-col items-center text-center">
+                <img src="hobi icon.png" alt="Hobi & Koleksi">
+                <p class="mt-2 text-sm">Hobi & Koleksi</p>
+            </div>
+            <div class="flex flex-wrap flex-col items-center text-center">
+                <img src="makanan icon.png" alt="Makanan & Minuman">
+                <p class="mt-2 text-sm">Makanan & Minuman</p>
+            </div>
+            <div class="flex flex-wrap flex-col items-center text-center">
+                <img src="perawatan icon.png" alt="Perawatan & Kecantikan">
+                <p class="mt-2 text-sm">Perawatan & Kecantikan</p>
+            </div>
+            <div class="flex flex-wrap flex-col items-center text-center">
+                <img src="perlengkapan rumah icon.png" alt="Perlengkapan Rumah">
+                <p class="mt-2 text-sm">Perlengkapan Rumah</p>
+            </div>
+            <div class="flex flex-wrap flex-col items-center text-center">
+                <img src="pakaian wanita icon.png" alt="Pakaian Wanita">
+                <p class="mt-2 text-sm">Pakaian Wanita</p>
+            </div>
+            <div class="flex flex-wrap flex-col items-center text-center">
+                <img src="muslim icon.png" alt="Fashion Muslim">
+                <p class="mt-2 text-sm">Fashion Muslim</p>
+            </div>
+            <div class="flex flex-wrap flex-col items-center text-center">
+                <img src="bayi icon.png" alt="Fashion Bayi & Anak">
+                <p class="mt-2 text-sm">Fashion Bayi & Anak</p>
+            </div>
+            <div class="flex flex-wrap flex-col items-center text-center">
+                <img src="ibu dan bayi icon.png" alt="Ibu & Bayi">Ibu & Bayi</p>
+            </div>
+            <div class="flex flex-wrap flex-col items-center text-center">
+                <img src="sepatu wanita icon.png" alt="Sepatu Wanita">Sepatu Wanita</p>
+            </div>
+            <div class="flex flex-wrap flex-col items-center text-center">
+                <img src="tas wanita icon.png" alt="Tas Wanita">Tas Wanita</p>
+            </div>
+            <div class="flex flex-wrap flex-col items-center text-center">
+                <img src="otomotif.png"
+                alt="Otomotif">Otomotif</p>
+            </div>
+            </div>
+        </div>
+    </section>
+    <!-- END CATEGORY tambahan SECTION -->
+    <!-- FLASH SALE SECTION -->
+<section>
+    <div class="flash-sale mx-10">
+      <span>FLASH SALE</span>
+      <div class="timer">
+          <div id="hours">00</div>
+          <div>:</div>
+          <div id="minutes">00</div>
+          <div>:</div>
+          <div id="seconds">00</div>
+      </div>
+   </div>
+        <p class="text-center text-gray-600 mx-10">Hurry up! Limited time offer.</p>
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6 mt-4">
+            <!-- Product placeholders for flash sale -->
+            <!-- Similar to the product grid below, add products here -->
+            <!-- product 1 -->
+            <a href="#" class="group relative block overflow-hidden">
+                <button
+                  class="absolute end-4 top-4 z-10 rounded-full bg-white p-1.5 text-gray-900 transition hover:text-gray-900/75"
+                >
+                  <span class="sr-only">Wishlist</span>
+              
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke-width="1.5"
+                    stroke="currentColor"
+                    class="h-4 w-4"
+                  >
+                    <path
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"
+                    />
+                  </svg>
+                </button>
+              
+                <img
+                  src="https://images.unsplash.com/photo-1599481238640-4c1288750d7a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2664&q=80"
+                  alt=""
+                  class="h-64 w-full object-cover transition duration-500 group-hover:scale-105 sm:h-72"
+                  loading="lazy"
+                />
+              
+                <div class="relative border border-gray-100 bg-white p-6">
+                  <span class="whitespace-nowrap bg-yellow-400 px-3 py-1.5 text-xs font-medium"> New </span>
+              
+                  <h3 class="mt-4 text-lg font-medium text-gray-900">Robot Toy</h3>
+              
+                  <p class="mt-1.5 text-sm text-gray-700">$14.99</p>
+              
+                  <form class="mt-4">
+                    <button
+                      class="block w-full rounded bg-yellow-400 p-4 text-sm font-medium transition hover:scale-105"
+                    >
+                      Add to Cart
+                    </button>
+                  </form>
+                </div>
+              </a>
+            <!-- END PRODUCT 1 -->
+            <!-- PRODUCT 2 -->
+    <a href="#" class="group relative block overflow-hidden">
+        <button
+          class="absolute end-4 top-4 z-10 rounded-full bg-white p-1.5 text-gray-900 transition hover:text-gray-900/75"
+        >
+          <span class="sr-only">Wishlist</span>
+      
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="h-4 w-4"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"
+            />
+          </svg>
+        </button>
+      
+        <img
+          src="https://images.unsplash.com/photo-1599481238640-4c1288750d7a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2664&q=80"
+          alt=""
+          class="h-64 w-full object-cover transition duration-500 group-hover:scale-105 sm:h-72"
+          loading="lazy"
+        />
+      
+        <div class="relative border border-gray-100 bg-white p-6">
+          <span class="whitespace-nowrap bg-yellow-400 px-3 py-1.5 text-xs font-medium"> New </span>
+      
+          <h3 class="mt-4 text-lg font-medium text-gray-900">Robot Toy</h3>
+      
+          <p class="mt-1.5 text-sm text-gray-700">$14.99</p>
+      
+          <form class="mt-4">
+            <button
+              class="block w-full rounded bg-yellow-400 p-4 text-sm font-medium transition hover:scale-105"
+            >
+              Add to Cart
+            </button>
+          </form>
+        </div>
+      </a>
+      <!-- END PRODUCT 2 -->
+      <!-- PRODUCT 3 -->
+    <a href="#" class="group relative block overflow-hidden">
+        <button
+          class="absolute end-4 top-4 z-10 rounded-full bg-white p-1.5 text-gray-900 transition hover:text-gray-900/75"
+        >
+          <span class="sr-only">Wishlist</span>
+      
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="h-4 w-4"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"
+            />
+          </svg>
+        </button>
+      
+        <img
+          src="https://images.unsplash.com/photo-1599481238640-4c1288750d7a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2664&q=80"
+          alt=""
+          class="h-64 w-full object-cover transition duration-500 group-hover:scale-105 sm:h-72"
+          loading="lazy"
+        />
+      
+        <div class="relative border border-gray-100 bg-white p-6">
+          <span class="whitespace-nowrap bg-yellow-400 px-3 py-1.5 text-xs font-medium"> New </span>
+      
+          <h3 class="mt-4 text-lg font-medium text-gray-900">Robot Toy</h3>
+      
+          <p class="mt-1.5 text-sm text-gray-700">$14.99</p>
+      
+          <form class="mt-4">
+            <button
+              class="block w-full rounded bg-yellow-400 p-4 text-sm font-medium transition hover:scale-105"
+            >
+              Add to Cart
+            </button>
+          </form>
+        </div>
+      </a>
+      <!-- END PRODUCT 3 -->
+      <!-- PRODUCT 4 -->
+    <a href="#" class="group relative block overflow-hidden">
+        <button
+          class="absolute end-4 top-4 z-10 rounded-full bg-white p-1.5 text-gray-900 transition hover:text-gray-900/75"
+        >
+          <span class="sr-only">Wishlist</span>
+      
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke-width="1.5"
+            stroke="currentColor"
+            class="h-4 w-4"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M21 8.25c0-2.485-2.099-4.5-4.688-4.5-1.935 0-3.597 1.126-4.312 2.733-.715-1.607-2.377-2.733-4.313-2.733C5.1 3.75 3 5.765 3 8.25c0 7.22 9 12 9 12s9-4.78 9-12z"
+            />
+          </svg>
+        </button>
+      
+        <img
+          src="https://images.unsplash.com/photo-1599481238640-4c1288750d7a?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2664&q=80"
+          alt=""
+          class="h-64 w-full object-cover transition duration-500 group-hover:scale-105 sm:h-72"
+          loading="lazy"
+        />
+      
+        <div class="relative border border-gray-100 bg-white p-6">
+          <span class="whitespace-nowrap bg-yellow-400 px-3 py-1.5 text-xs font-medium"> New </span>
+      
+          <h3 class="mt-4 text-lg font-medium text-gray-900">Robot Toy</h3>
+      
+          <p class="mt-1.5 text-sm text-gray-700">$14.99</p>
+      
+          <form class="mt-4">
+            <button
+              class="block w-full rounded bg-yellow-400 p-4 text-sm font-medium transition hover:scale-105"
+            >
+              Add to Cart
+            </button>
+          </form>
+        </div>
+      </a>
+</section>
+      <!-- end product 4 -->
+      <!-- Static Banners -->
+    <div class="grid gap-4 mx-auto">
+      <div class="relative">
+          <img src="statis banner 1.png" class="block w-full" alt="Static Banner 1">
+    </div>
+    </div>
+      <!-- END STATIC BANNER -->
+    <!-- END FLASH SALE SECTION -->
+  <!-- PRODUCT GRID -->
+    <main>
+        <div class="mt-8">
+            <div class="max-w-2xl mx-auto text-center">
+                <h2 class="text-3xl font-bold text-gray-800">Discover Amazing Products</h2>
+                <p class="mt-2 text-gray-600">Exclusive deals on our Shopee clone platform.</p>
+            </div>
+            <div class="mt-6 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
+                <!-- Product placeholders -->
+                <!-- Similar to the product grid above, add products here -->
+                <!-- PRODUCT 1 -->
+                <a href="#" class="group relative block">
+                    <div class="relative h-[350px] sm:h-[450px]">
+                      <img
+                        src="https://images.unsplash.com/photo-1593795899768-947c4929449d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2672&q=80"
+                        alt=""
+                        class="absolute inset-0 h-full w-full object-cover opacity-100 group-hover:opacity-0"
+                      />
+                  
+                      <img
+                        src="https://images.unsplash.com/photo-1593795899630-b6033c0fa58d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80"
+                        alt=""
+                        class="absolute inset-0 h-full w-full object-cover opacity-0 group-hover:opacity-100"
+                      />
+                    </div>
+                  
+                    <div class="absolute inset-0 flex flex-col items-start justify-end p-6">
+                      <h3 class="text-xl font-medium text-white">Skinny Jeans Blue</h3>
+                  
+                      <p class="mt-1.5 text-pretty text-xs text-white">
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Dignissimos sequi dicta impedit
+                        aperiam ipsum!
+                      </p>
+                  
+                      <span
+                        class="mt-3 inline-block bg-black px-5 py-3 text-xs font-medium uppercase tracking-wide text-white"
+                      >
+                        Shop Now
+                      </span>
+                    </div>
+                  </a>
+                  <!-- END PRODUCT 1 -->
+                  <!-- PRODUCT 2 -->
+                <a href="#" class="group relative block">
+                    <div class="relative h-[350px] sm:h-[450px]">
+                      <img
+                        src="https://images.unsplash.com/photo-1593795899768-947c4929449d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2672&q=80"
+                        alt=""
+                        class="absolute inset-0 h-full w-full object-cover opacity-100 group-hover:opacity-0"
+                      />
+                  
+                      <img
+                        src="https://images.unsplash.com/photo-1593795899630-b6033c0fa58d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80"
+                        alt=""
+                        class="absolute inset-0 h-full w-full object-cover opacity-0 group-hover:opacity-100"
+                      />
+                    </div>
+                  
+                    <div class="absolute inset-0 flex flex-col items-start justify-end p-6">
+                      <h3 class="text-xl font-medium text-white">Skinny Jeans Blue</h3>
+                  
+                      <p class="mt-1.5 text-pretty text-xs text-white">
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Dignissimos sequi dicta impedit
+                        aperiam ipsum!
+                      </p>
+                  
+                      <span
+                        class="mt-3 inline-block bg-black px-5 py-3 text-xs font-medium uppercase tracking-wide text-white"
+                      >
+                        Shop Now
+                      </span>
+                    </div>
+                  </a>
+                  <!-- END PRODUCT 2 -->
+                  <!-- PRODUCT 3 -->
+                <a href="#" class="group relative block">
+                    <div class="relative h-[350px] sm:h-[450px]">
+                      <img
+                        src="https://images.unsplash.com/photo-1593795899768-947c4929449d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2672&q=80"
+                        alt=""
+                        class="absolute inset-0 h-full w-full object-cover opacity-100 group-hover:opacity-0"
+                      />
+                  
+                      <img
+                        src="https://images.unsplash.com/photo-1593795899630-b6033c0fa58d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80"
+                        alt=""
+                        class="absolute inset-0 h-full w-full object-cover opacity-0 group-hover:opacity-100"
+                      />
+                    </div>
+                  
+                    <div class="absolute inset-0 flex flex-col items-start justify-end p-6">
+                      <h3 class="text-xl font-medium text-white">Skinny Jeans Blue</h3>
+                  
+                      <p class="mt-1.5 text-pretty text-xs text-white">
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Dignissimos sequi dicta impedit
+                        aperiam ipsum!
+                      </p>
+                  
+                      <span
+                        class="mt-3 inline-block bg-black px-5 py-3 text-xs font-medium uppercase tracking-wide text-white"
+                      >
+                        Shop Now
+                      </span>
+                    </div>
+                  </a>
+                  <!-- END PRODUCT 3 -->
+                  <!-- PRODUCT 4 -->
+                <a href="#" class="group relative block">
+                    <div class="relative h-[350px] sm:h-[450px]">
+                      <img
+                        src="https://images.unsplash.com/photo-1593795899768-947c4929449d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2672&q=80"
+                        alt=""
+                        class="absolute inset-0 h-full w-full object-cover opacity-100 group-hover:opacity-0"
+                      />
+                  
+                      <img
+                        src="https://images.unsplash.com/photo-1593795899630-b6033c0fa58d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=774&q=80"
+                        alt=""
+                        class="absolute inset-0 h-full w-full object-cover opacity-0 group-hover:opacity-100"
+                      />
+                    </div>
+                  
+                    <div class="absolute inset-0 flex flex-col items-start justify-end p-6">
+                      <h3 class="text-xl font-medium text-white">Skinny Jeans Blue</h3>
+                  
+                      <p class="mt-1.5 text-pretty text-xs text-white">
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Dignissimos sequi dicta impedit
+                        aperiam ipsum!
+                      </p>
+                  
+                      <span
+                        class="mt-3 inline-block bg-black px-5 py-3 text-xs font-medium uppercase tracking-wide text-white"
+                      >
+                        Shop Now
+                      </span>
+                    </div>
+                  </a>
+                  <!-- END PRODUCT 4 -->
+            </div>
+        </div>
+    </main>
+  <!-- END PRODUCT GRID -->
+  <!-- FLEX PRODUCTS -->
+<section>
+    <div class="mx-auto max-w-screen-xl px-4 py-8 sm:px-6 sm:py-12 lg:px-8">
+      <header class="text-center">
+        <h2 class="text-xl font-bold text-gray-900 sm:text-3xl">Product Collection</h2>
+  
+        <p class="mx-auto mt-4 max-w-md text-gray-500">
+          Lorem ipsum, dolor sit amet consectetur adipisicing elit. Itaque praesentium cumque iure
+          dicta incidunt est ipsam, officia dolor fugit natus?
+        </p>
+      </header>
+  
+      <ul class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <li>
+          <a href="#" class="group block overflow-hidden">
+            <img
+              src="https://images.unsplash.com/photo-1523381210434-271e8be1f52b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80"
+              alt=""
+              class="h-[350px] w-full object-cover transition duration-500 group-hover:scale-105 sm:h-[450px]"
+            />
+  
+            <div class="relative bg-white pt-3">
+              <h3 class="text-xs text-gray-700 group-hover:underline group-hover:underline-offset-4">
+                Basic Tee
+              </h3>
+  
+              <p class="mt-2">
+                <span class="sr-only"> Regular Price </span>
+  
+                <span class="tracking-wider text-gray-900"> £24.00 GBP </span>
+              </p>
+            </div>
+          </a>
+        </li>
+  
+        <li>
+          <a href="#" class="group block overflow-hidden">
+            <img
+              src="https://images.unsplash.com/photo-1523381210434-271e8be1f52b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80"
+              alt=""
+              class="h-[350px] w-full object-cover transition duration-500 group-hover:scale-105 sm:h-[450px]"
+            />
+
+            <div class="relative bg-white pt-3">
+              <h3 class="text-xs text-gray-700 group-hover:underline group-hover:underline-offset-4">
+                Basic Tee
+              </h3>
+
+              <p class="mt-2">
+                <span class="sr-only"> Regular Price </span>
+
+                <span class="tracking-wider text-gray-900"> £24.00 GBP </span>
+              </p>
+            </div>
+          </a>
+        </li>
+
+        <li>
+          <a href="#" class="group block overflow-hidden">
+            <img
+              src="https://images.unsplash.com/photo-1523381210434-271e8be1f52b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80"
+              alt=""
+              class="h-[350px] w-full object-cover transition duration-500 group-hover:scale-105 sm:h-[450px]"
+            />
+
+            <div class="relative bg-white pt-3">
+              <h3 class="text-xs text-gray-700 group-hover:underline group-hover:underline-offset-4">
+                Basic Tee
+              </h3>
+
+              <p class="mt-2">
+                <span class="sr-only"> Regular Price </span>
+
+                <span class="tracking-wider text-gray-900"> £24.00 GBP </span>
+              </p>
+            </div>
+          </a>
+        </li>
+
+        <li>
+          <a href="#" class="group block overflow-hidden">
+            <img
+              src="https://images.unsplash.com/photo-1523381210434-271e8be1f52b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80"
+              alt=""
+              class="h-[350px] w-full object-cover transition duration-500 group-hover:scale-105 sm:h-[450px]"
+            />
+
+            <div class="relative bg-white pt-3">
+              <h3 class="text-xs text-gray-700 group-hover:underline group-hover:underline-offset-4">
+                Basic Tee
+              </h3>
+
+              <p class="mt-2">
+                <span class="sr-only"> Regular Price </span>
+
+                <span class="tracking-wider text-gray-900"> £24.00 GBP </span>
+              </p>
+            </div>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </section>
+    <!-- END FLEX PRODUCTS -->
+
+    <!-- FOOTER -->
+    <footer class="bg-red-600 p-4 text-white mt-8">
+        <div class="container mx-auto text-center">
+            <p>&copy; 2023 Shopee Clone. All rights reserved.</p>
+        </div>
+    </footer>
+    <!-- END FOOTER -->
+    <script>
+         document.addEventListener('DOMContentLoaded', function () {
+            const carouselItems = document.querySelectorAll('[data-carousel-item]');
+            const prevButton = document.querySelector('[data-carousel-prev]');
+            const nextButton = document.querySelector('[data-carousel-next]');
+            const indicators = document.querySelectorAll('[data-carousel-slide-to]');
+            let currentIndex = 0;
+
+            function showSlide(index) {
+                carouselItems.forEach((item, i) => {
+                    item.classList.toggle('hidden', i !== index);
+                    item.classList.toggle('active', i === index);
+                });
+                indicators.forEach((indicator, i) => {
+                    indicator.setAttribute('aria-current', i === index);
+                });
+            }
+
+            prevButton.addEventListener('click', () => {
+                currentIndex = (currentIndex > 0) ? currentIndex - 1 : carouselItems.length - 1;
+                showSlide(currentIndex);
+            });
+
+            nextButton.addEventListener('click', () => {
+                currentIndex = (currentIndex < carouselItems.length - 1) ? currentIndex + 1 : 0;
+                showSlide(currentIndex);
+            });
+
+            indicators.forEach((indicator, i) => {
+                indicator.addEventListener('click', () => {
+                    currentIndex = i;
+                    showSlide(currentIndex);
+                });
+            });
+
+            showSlide(currentIndex);
+        });
+        //
+        setInterval(nextSlide, 5000);
+        
+        function startTimer(duration, display) {
+            let timer = duration, hours, minutes, seconds;
+            setInterval(function () {
+                hours = parseInt(timer / 3600, 10);
+                minutes = parseInt((timer % 3600) / 60, 10);
+                seconds = parseInt(timer % 60, 10);
+
+                hours = hours < 10 ? "0" + hours : hours;
+                minutes = minutes < 10 ? "0" + minutes : minutes;
+                seconds = seconds < 10 ? "0" + seconds : seconds;
+
+                display.hours.textContent = hours;
+                display.minutes.textContent = minutes;
+                display.seconds.textContent = seconds;
+
+                if (--timer < 0) {
+                    timer = duration;
+                }
+            }, 1000);
+        }
+
+        window.onload = function () {
+            const duration = 60 * 60; // Timer for 1 hour
+            const display = {
+                hours: document.getElementById('hours'),
+                minutes: document.getElementById('minutes'),
+                seconds: document.getElementById('seconds')
+            };
+            startTimer(duration, display);
+        };
+
+        function toggleModal(modalId) {
+            var modal = document.getElementById(modalId);
+            modal.style.display = modal.style.display === "none" ? "block" : "none";
+        }
+
+        function login() {
+            // Implementasi proses login
+            alert('Login process');
+            toggleModal('loginModal');
+        }
+
+        function toggleModal(signInModal) {
+    var modal = document.getElementById(signInModal);
+    modal.style.display = modal.style.display === "none" ? "block" : "none";
+}
+    </script>
+</body>
+</html>
